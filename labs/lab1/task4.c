@@ -6,7 +6,7 @@ int main()
     
     scanf("%f%f%f", &a, &b, &c);
     x = (c-b)/a;
-    printf("x=%f", x);
+    printf("x=%.1lf", x);
 
     return 0;
 }

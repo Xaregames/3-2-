@@ -1,3 +1,6 @@
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -6,11 +9,11 @@
 
 
 
-struct product{
+typedef  struct {
     
     int price;
     char name[20];
-};
+}product;
 
 int main()
 {
@@ -18,19 +21,23 @@ int main()
     
     
     
-    struct product *product;
+    product *product1;
     
-    product = malloc
+    product1 = malloc(sizeof(product1));
     char line[20];
     int i = 0;
     FILE *fp = fopen("text.txt","r");
     
     
-    while(fscanf(fp,"%s %d", product[i].name, &product[i].price) != EOF){
-        printf("%s %d\n", product[i].name, product[i].price);
+    while(fscanf(fp,"%s %d", product1[i].name, &product1[i].price) != EOF){
+        printf("%s %d\n", product1[i].name, product1[i].price);
         i++;
+        product1 = realloc(product1,sizeof(product1)+sizeof(product));
         
     }
+    
+    
+
     
    
     return 0;

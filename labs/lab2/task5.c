@@ -1,6 +1,3 @@
-
-
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -14,6 +11,39 @@ typedef  struct {
     int price;
     char name[20];
 }product;
+
+void quickSort(product* nums, int begin, int end)
+    {
+    int l = begin, r = end;
+    int v = nums[l+(r-l)/2].price;
+    while(l <= r)
+    {
+        while((nums[l].price < v)&&(l<end)) l++;
+        while((nums[r].price > v)&&(r>begin)) r--;
+        if(l <= r)
+        {
+            product tmp = nums[l];
+            nums[l] = nums[r];
+            nums[r] = tmp;
+            if (l<end)
+            {
+                l++;
+            }
+            if (r>0)
+            {
+                r--;
+            }
+        }
+    }
+    if(begin < r)
+        quickSort(nums, begin, r);
+    if(l < end)
+        quickSort(nums, l, end);
+}
+
+
+
+
 
 int main()
 {
@@ -34,11 +64,19 @@ int main()
         i++;
         product1 = realloc(product1,sizeof(product1)+sizeof(product));
         
+        
+        
     }
+    fclose(fp);
+    quickSort(product1,0,i);
     
+    FILE* fp2 =fopen("text2.txt","w");
     
+    for (int k = 0; k < i; k++) {
+        fprintf(fp2,"%s %d\n", product1[k].name, product1[k].price);
+        printf("%s %d\n", product1[k].name, product1[k].price);
+    }
 
-    
    
     return 0;
 }

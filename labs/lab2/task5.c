@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,21 +19,14 @@ void quickSort(product* nums, int begin, int end)
     int v = nums[l+(r-l)/2].price;
     while(l <= r)
     {
-        while((nums[l].price < v)&&(l<end)) l++;
-        while((nums[r].price > v)&&(r>begin)) r--;
+        while(nums[l].price < v) l++;
+        while(nums[r].price > v) r--;
         if(l <= r)
         {
             product tmp = nums[l];
             nums[l] = nums[r];
             nums[r] = tmp;
-            if (l<end)
-            {
-                l++;
-            }
-            if (r>0)
-            {
-                r--;
-            }
+            l++, r--;
         }
     }
     if(begin < r)
@@ -68,7 +62,15 @@ int main()
         
     }
     fclose(fp);
-    quickSort(product1,0,i);
+    
+    for (int k = 0; k < i; k++) {
+        printf("%s Пробел %d\n", product1[k].name, product1[k].price);
+    }
+    
+    quickSort(product1,0,i-1);
+    
+    
+    
     
     FILE* fp2 =fopen("text2.txt","w");
     

@@ -1,79 +1,85 @@
-#include <stdio.h>
+
 #include <stdlib.h>
+#include <stdio.h>
 
-#define MAX 5  // Максимальный размер стека
 
-int stack[MAX];
-int top = -1;
 
-// Функция для добавления элемента в стек
-void push(int value) {
-    if (top == MAX - 1) {
-        printf("Стек переполнен!\n");
-    } else {
-        top++;
-        stack[top] = value;
-        printf("Значение %d добавлено в стек.\n", value);
+
+
+
+typedef  struct {
+    
+    int price;
+    char name[20];
+}product;
+
+void quickSort(product* nums, int begin, int end)
+    {
+    int l = begin, r = end;
+    int v = nums[l+(r-l)/2].price;
+    while(l <= r)
+    {
+        while(nums[l].price < v) l++;
+        while(nums[r].price > v) r--;
+        if(l <= r)
+        {
+            product tmp = nums[l];
+            nums[l] = nums[r];
+            nums[r] = tmp;
+            l++, r--;
+        }
     }
+    if(begin < r)
+        quickSort(nums, begin, r);
+    if(l < end)
+        quickSort(nums, l, end);
 }
 
-// Функция для извлечения элемента из стека
-int pop() {
-    if (top == -1) {
-        printf("Стек пуст!\n");
-        return -1;
-    } else {
-        int value = stack[top];
-        top--;
-        printf("Значение %d извлечено из стека.\n", value);
-        return value;
+
+
+
+
+int main()
+{
+    
+    
+    
+    
+    product *product1;
+    printf("%ld\n",sizeof(product1));
+    product1 = malloc(sizeof(product));
+    int i = 0;
+    FILE *fp = fopen("text.txt","r");
+    
+    
+    while(fscanf(fp,"%s %d", product1[i].name, &product1[i].price) != EOF){
+        printf("%s %d\n", product1[i].name, product1[i].price);
+        i++;
+        printf("1: %ld\n",sizeof(product1));
+        product1 = realloc(product1,sizeof(product)*(i+1));
+        printf("2: %ld\n",sizeof(product1));
+
     }
-}
-
-// Функция для просмотра верхнего элемента стека
-int peek() {
-    if (top == -1) {
-        printf("Стек пуст!\n");
-        return -1;
-    } else {
-        printf("Верхнее значение стека: %d\n", stack[top]);
-        return stack[top];
+    fclose(fp);
+    
+    quickSort(product1,0,i-1);
+    
+   /* printf(" 1: \n");
+    for (int k = 0; k < i; k++) {
+        printf("%s Пробел %d\n", product1[k].name, product1[k].price);
     }
-}
-
-// Функция для проверки состояния стека (пуст или полон)
-void checkStackState() {
-    if (top == -1) {
-        printf("Стек пуст!\n");
-    } else if (top == MAX - 1) {
-        printf("Стек полон!\n");
-    } else {
-        printf("В стеке имеются элементы.\n");
+    printf(" 2: \n");*/
+    
+    
+    
+    FILE* fp2 =fopen("text2.txt","w");
+    
+    for (int k = 0; k < i; k++) {
+        fprintf(fp2,"%s %d\n", product1[k].name, product1[k].price);
+        //printf("%s %d\n", product1[k].name, product1[k].price);
     }
-}
-
-int main() {
-    // Пример работы с функциями стека
-    push(10);
-    push(20);
-    push(30);
-    push(40);
-    push(50);  // Заполнение стека
-    push(60);  // Переполнение стека
-
-    peek();    // Проверка верхнего элемента
-
-    pop();     // Извлечение элемента
-    pop();
-
-    peek();    // Проверка верхнего элемента после извлечения
-
-    pop();
-    pop();
-    pop();     // Извлечение до опустошения стека
-    pop();     // Попытка извлечения из пустого стека
-
-    checkStackState();  // Проверка состояния стека
-
+    
+    fclose(fp2);
+   
     return 0;
 }

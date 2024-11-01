@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
 struct stek
 {   
     int number;
@@ -54,7 +58,6 @@ struct stek* pop(struct stek* stek,int num){
         top = top->nextNumber;
         num--;
     }
-    printf("4)Просмотр вверхнего значения стека\n");
     top = top->nextNumber;
     while(dopStek!=NULL){
         top = push2(top, dopStek->number);
@@ -63,7 +66,6 @@ struct stek* pop(struct stek* stek,int num){
     
     free(stek);
     free(dopStek);
-    printStruct(top);
     return top;
 }
 
@@ -80,6 +82,10 @@ int main()
     struct stek* stek = NULL;
     int id = 0;
     int a;
+    
+    
+    
+    
     while (a != 5){
         printf("Элементов в стеке:%d\n", id);
         printf("1)Добавить элемент в стек\n");
@@ -91,21 +97,33 @@ int main()
         scanf("%d",&a);
         switch (a){
         case 1:
-            id++;
-            stek = push(stek);
-            break;
+            if(id < 5){
+                id++;
+                stek = push(stek);
+                break;
+            }
+            else{
+                printf("Стек заполнен! Очистите стек для добавления нового значения!\n");
+                break;
+            }
         case 2:
             stek = pop(stek,id);
             id--;
             break;
-        case 5: 
+        case 3:
+            printStruct(stek);
             break;
+        case 4: 
+            printf("Вверхнее значение стека:\t%d\n",stek->number);
+            break;
+        case 5: 
+            break;        
         
         }
     }
     
  
     
-    printf("%d",stek->number);
+    
     return 0;
 }

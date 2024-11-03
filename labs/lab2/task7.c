@@ -65,18 +65,22 @@ struct stek answer(struct stek  *stek,char *text){
 
 int main(){
     struct stek *stek = NULL;
-    char *text[256];
-    
-    FILE *file = fopen("r","text.txt");
+    char text[20];
+    char ch[256];
+    FILE *file = fopen("text.txt","r");
 
-    fscanf(file,*text,256);
-    while((fscanf(file, "%20s %d", name, &age))!=EOF)
+    
+    while((fscanf(file,"%s ", text))!=EOF)
     {
-        printf("%s  %d\n", name, age);
+        
+        
     }
     
-    
+    for (int i = 0; i < 20; i++) {
+            printf("%c\n", text[i]);
+        }
     
     
     return 0;
 }
+

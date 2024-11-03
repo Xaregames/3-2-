@@ -29,35 +29,35 @@ struct stek* push(struct stek* stek, int num){
 }
 
 struct stek answer(struct stek  *stek,char *text){
-    for (int i = 0; i < 256; i++) {
-        if(isdigit(text[i])){
-            stek = push(stek,atoi(text[i]));
-        }
-        else{
-            int operation = (text[i] == '+') ? 1 :
-                          ((text[i] == '-') ? 2 :
-                              ((text[i] == '*') ? 3 :
-                                  ((text[i] == '/') ? 4 : 0)));
-            switch (operation){
-                case 1:
-                    stek->nextNumber->number = stek->nextNumber->number + stek->number;
-                    stek = stek->nextNumber;
-                    break;
-                case 2:
-                    stek->nextNumber->number = stek->nextNumber->number - stek->number;
-                    stek = stek->nextNumber;
-                    break;
-                case 3:
-                    stek->nextNumber->number = stek->nextNumber->number * stek->number;
-                    stek = stek->nextNumber;
-                    break;
-                case 4:
-                    stek->nextNumber->number = stek->nextNumber->number / stek->number;
-                    stek = stek->nextNumber;
-                    break;
-            }
+
+    if(isdigit(atoi(text))){
+        stek = push(stek,atoi(text));
+    }
+    else{
+        int operation = (text[0] == '+') ? 1 :
+                      ((text[0] == '-') ? 2 :
+                          ((text[0] == '*') ? 3 :
+                              ((text[0] == '/') ? 4 : 0)));
+        switch (operation){
+            case 1:
+                stek->nextNumber->number = stek->nextNumber->number + stek->number;
+                stek = stek->nextNumber;
+                break;
+            case 2:
+                stek->nextNumber->number = stek->nextNumber->number - stek->number;
+                stek = stek->nextNumber;
+            break;
+            case 3:
+                stek->nextNumber->number = stek->nextNumber->number * stek->number;
+                stek = stek->nextNumber;
+                break;
+            case 4:
+                stek->nextNumber->number = stek->nextNumber->number / stek->number;
+                stek = stek->nextNumber;
+                break;
         }
     }
+    
 }
 
 
@@ -67,12 +67,15 @@ int main(){
     struct stek *stek = NULL;
     char *text[256];
     
-    FILE *file = fopen("text.txt",'r');
+    FILE *file = fopen("r","text.txt");
+
+    fscanf(file,*text,256);
+    while((fscanf(file, "%20s %d", name, &age))!=EOF)
+    {
+        printf("%s  %d\n", name, age);
+    }
     
-    fscanf(text,256,file);
     
-    
-        
     
     
     return 0;

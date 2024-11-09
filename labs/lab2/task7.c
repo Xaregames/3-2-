@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 
 struct stek{
@@ -29,10 +30,15 @@ struct stek* pop(struct stek* stek){
 }
 
 
-struct stek* answer(struct stek  *stek,char text){
+struct stek* answer(struct stek  *stek,char text, int k){
 
     if(isdigit(text)){
-        stek = push(stek,atoi(&text));
+        if(k == 0){
+            stek = push(stek,atoi(&text));
+        }
+        else{
+            stek->number = stek->number * pow(10,k) + atoi(&text);
+        }
     }
     else{
         int operation = (text == '+') ? 1 :
@@ -83,9 +89,11 @@ int main(){
     
     while((fscanf(file,"%s", text))!=EOF)
     {
+        int  k = 0; // значение для того чтобы определять скольки значное число
         for (int i = 0; i < 20; i++) {
             printf("%c", text[i]);
-            stek = answer(stek,text[i]);
+            stek = answer(stek,text[i],k);
+            k++;
         }
         printf(" \n");
         

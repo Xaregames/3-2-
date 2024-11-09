@@ -6,6 +6,8 @@
 #include <stdbool.h>
 
 
+char text[256];
+int i;
 struct stek{
     char number;
     int priority;
@@ -49,7 +51,7 @@ void printStruct(struct stek* stek){
 }
 
 bool digit(char ch){
-    if(ch != 42 || ch != 43 || ch !=45 || ch || 47){
+    if(ch != '+' && ch != '-' && ch !='*' && ch != '/'){
         return true;
     }
     else{
@@ -63,7 +65,9 @@ char *add(char* text, char ch){
 }
 
 
-struct stek* answer(struct stek* stek,char ch,char* text,int priority){
+
+
+struct stek* answer(struct stek* stek,char ch,int priority){
     struct stek* top = stek;
     if(top == NULL){
         top =push(top,ch,priority);
@@ -74,14 +78,17 @@ struct stek* answer(struct stek* stek,char ch,char* text,int priority){
         return stek;
     }
     else if(priority = top->priority){
-        char addChar = top->number;
+        
+        text[i] = top->number;
         top = pop(top);
         top = push(top,ch,priority);
         return stek;
     }
     else if(priority < top->priority){
+        text[i] = top->number;
+        i++;
         top = pop(top);
-        return answer(top,ch,text,priority);
+        return answer(top,ch,priority);
     }
     
 }
@@ -91,13 +98,14 @@ int main(){
   struct stek* stek = NULL;
   char ch[256];
   
-  char text[256];
+  
   fgets(ch,256,stdin);
   
   int priority = 0;
-  for (int i = 0; i < 256; i++) {
+  for (i = 0; i < 256; i++) {
       if(digit(ch[i])){
           text[i] = ch[i];
+          printf("%c\n", text[i]);
           continue;
       }
         
@@ -109,13 +117,35 @@ int main(){
             priority -= 2;
             continue;
       }
+      if(ch[i] != '+' && ch[i] != '-' ){
+        priority = 1;
+          
+      }
+      else if( ch[i] !='*' && ch[i] != '/'){
+        priority = 2;
+      }
     
-    stek = answer(stek,ch[i],text,priority);
     
+    stek = answer(stek,ch[i],priority);
+    
+    if(ch[i] == '\0'){
+        for (int k = i; k < 256; k++) {
+            text[i] = stek->number;
+            printf("NENFDFSDFSDF%c", text[i]);
+            stek=pop(stek);
+        }
+        
+        break;
+    }
      
   } 
+  while(stek != NULL){
+      printf("%c",stek->number);
+      stek = stek->nextNumber;
+  }
   
-  for (int i = 0; i < 256; i++) {
+  
+  for (i = 0; i < 256; i++) {
       printf("%c", text[i]);
   }
   

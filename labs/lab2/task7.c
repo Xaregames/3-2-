@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,16 +20,25 @@ struct stek* push(struct stek* stek, int num){
     
 }
 
-struct stek answer(struct stek  *stek,char *text){
 
-    if(isdigit(atoi(text))){
-        stek = push(stek,atoi(text));
+struct stek* pop(struct stek* stek){
+    struct stek* top ;
+    top = stek->nextNumber;
+    free(stek);
+    return top;
+}
+
+
+struct stek* answer(struct stek  *stek,char text){
+
+    if(isdigit(text)){
+        stek = push(stek,atoi(&text));
     }
     else{
-        int operation = (text[0] == '+') ? 1 :
-                      ((text[0] == '-') ? 2 :
-                          ((text[0] == '*') ? 3 :
-                              ((text[0] == '/') ? 4 : 0)));
+        int operation = (text == '+') ? 1 :
+                      ((text == '-') ? 2 :
+                          ((text == '*') ? 3 :
+                              ((text == '/') ? 4 : 0)));
         switch (operation){
             case 1:
                 stek->nextNumber->number = stek->nextNumber->number + stek->number;
@@ -57,7 +58,17 @@ struct stek answer(struct stek  *stek,char *text){
                 break;
         }
     }
+    return stek;
     
+}
+
+void printStruct(struct stek* stek){
+    struct stek* top = stek;
+    
+    while(top!= NULL){
+        printf("%d\t",top->number);
+        top = top->nextNumber;
+    }
 }
 
 
@@ -70,17 +81,17 @@ int main(){
     FILE *file = fopen("text.txt","r");
 
     
-    while((fscanf(file,"%s ", text))!=EOF)
+    while((fscanf(file,"%s", text))!=EOF)
     {
-        
+        for (int i = 0; i < 20; i++) {
+            printf("%c", text[i]);
+            stek = answer(stek,text[i]);
+        }
+        printf(" \n");
         
     }
-    
-    for (int i = 0; i < 20; i++) {
-            printf("%c\n", text[i]);
-        }
+    printStruct(stek);
     
     
     return 0;
 }
-

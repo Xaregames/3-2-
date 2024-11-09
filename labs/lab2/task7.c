@@ -1,3 +1,11 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,13 +39,14 @@ struct stek* pop(struct stek* stek){
 
 
 struct stek* answer(struct stek  *stek,char text, int k){
+    
 
     if(isdigit(text)){
         if(k == 0){
             stek = push(stek,atoi(&text));
         }
         else{
-            stek->number = stek->number * pow(10,k) + atoi(&text);
+            stek->number = stek->number * 10 + atoi(&text);
         }
     }
     else{
@@ -82,24 +91,49 @@ void printStruct(struct stek* stek){
 
 int main(){
     struct stek *stek = NULL;
-    char text[20];
-    char ch[256];
+    char text[256];
     FILE *file = fopen("text.txt","r");
 
-    
+    /*
     while((fscanf(file,"%s", text))!=EOF)
     {
         int  k = 0; // значение для того чтобы определять скольки значное число
         for (int i = 0; i < 20; i++) {
             printf("%c", text[i]);
+            
             stek = answer(stek,text[i],k);
             k++;
         }
+       // printf(" \n");
+        //printStruct(stek);
         printf(" \n");
         
     }
     printStruct(stek);
+    */
     
+    fgets(text,256,file);
+    
+    
+    int  k = 0;
+    for (int i = 0; i < strlen(text); i++) {
+        /* code */
+     
+        if(text[i] == 32){
+                
+            k = 0; // значение для того чтобы определять скольки значное число
+            continue;
+        }
+     
+        
+        stek = answer(stek,text[i],k);
+        k++;
+       
+
+        
+    }
+    
+    printStruct(stek);
     
     return 0;
 }

@@ -7,7 +7,7 @@
 
 
 char text[256];
-int i;
+int i,k = 0;
 struct stek{
     char number;
     int priority;
@@ -76,19 +76,20 @@ struct stek* answer(struct stek* stek,char ch,int priority){
     else if(priority > stek->priority){
         
         top = push(top,ch,priority);
-
+        
         return top;
     }
     else if(priority = top->priority){
         
-        text[i] = top->number;
+        text[k] = top->number;
+        k++;
         top = pop(top);
         top = push(top,ch,priority);
         return top;
     }
     else if(priority < top->priority){
-        text[i] = top->number;
-        i++;
+        text[k] = top->number;
+        k++;
         top = pop(top);
         return answer(top,ch,priority);
     }
@@ -100,14 +101,14 @@ int main(){
   struct stek* stek = NULL;
   char ch[256];
   
-  
   fgets(ch,256,stdin);
   
   int priority = 0;
   for (i = 0; i < 256; i++) {
       if(digit(ch[i])){
-          text[i] = ch[i];
-          printf("%c\n", text[i]);
+          text[k] = ch[i];
+          k++;
+          printf("%c\n", text[k-1]);
           continue;
       }
         
@@ -131,16 +132,26 @@ int main(){
     stek = answer(stek,ch[i],priority);
     printStruct(stek);
     
-     
+    
+    
   } 
   
+
   
-  
-  for (int i = 0; i < 256 && stek != NULL; i++) {
-        if (i < 255) { // Проверяем, достигли ли конца строки или списка
-            printf("%c", text[i]);
-        } else{
-            printStruct(stek);
-        }
+    for (int i = strlen(text); stek != NULL; i++) {
+      
+        text[i] = stek->number;
+        stek = pop(stek);
     }
+    
+    for (int i = 0; i < strlen(text) ; i++) {
+        
+        if(text[i] == 10){
+            continue;
+        }
+        
+        printf("%c",text[i]);
+    }
+
+    
 }

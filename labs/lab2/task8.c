@@ -45,7 +45,7 @@ void printStruct(struct stek* stek){
     struct stek* top = stek;
     
     while(top!= NULL){
-        printf("%d\t",top->number);
+        printf("%c",top->number);
         top = top->nextNumber;
     }
 }
@@ -74,15 +74,17 @@ struct stek* answer(struct stek* stek,char ch,int priority){
         return top;
     }
     else if(priority > stek->priority){
+        
         top = push(top,ch,priority);
-        return stek;
+
+        return top;
     }
     else if(priority = top->priority){
         
         text[i] = top->number;
         top = pop(top);
         top = push(top,ch,priority);
-        return stek;
+        return top;
     }
     else if(priority < top->priority){
         text[i] = top->number;
@@ -117,36 +119,28 @@ int main(){
             priority -= 2;
             continue;
       }
-      if(ch[i] != '+' && ch[i] != '-' ){
+      if(ch[i] == '+' || ch[i] == '-' ){
         priority = 1;
           
       }
-      else if( ch[i] !='*' && ch[i] != '/'){
+      else if( ch[i] =='*' || ch[i] == '/'){
         priority = 2;
       }
     
     
     stek = answer(stek,ch[i],priority);
+    printStruct(stek);
     
-    if(ch[i] == '\0'){
-        for (int k = i; k < 256; k++) {
-            text[i] = stek->number;
-            printf("NENFDFSDFSDF%c", text[i]);
-            stek=pop(stek);
-        }
-        
-        break;
-    }
      
   } 
-  while(stek != NULL){
-      printf("%c",stek->number);
-      stek = stek->nextNumber;
-  }
   
   
-  for (i = 0; i < 256; i++) {
-      printf("%c", text[i]);
-  }
   
+  for (int i = 0; i < 256 && stek != NULL; i++) {
+        if (i < 255) { // Проверяем, достигли ли конца строки или списка
+            printf("%c", text[i]);
+        } else{
+            printStruct(stek);
+        }
+    }
 }

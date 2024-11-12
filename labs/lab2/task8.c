@@ -45,9 +45,10 @@ void printStruct(struct stek* stek){
     struct stek* top = stek;
     
     while(top!= NULL){
-        printf("%c",top->number);
+        printf("%c\t%d",top->number,top->priority);
         top = top->nextNumber;
     }
+    printf("\n");
 }
 
 bool digit(char ch){
@@ -60,15 +61,14 @@ bool digit(char ch){
     }
 }
 
-char *add(char* text, char ch){
-    
-}
+
 
 
 
 
 struct stek* answer(struct stek* stek,char ch,int priority){
     struct stek* top = stek;
+    //printStruct(top);
     if(top == NULL){
         top =push(top,ch,priority);
         return top;
@@ -91,8 +91,10 @@ struct stek* answer(struct stek* stek,char ch,int priority){
         text[k] = top->number;
         k++;
         top = pop(top);
+        printStruct(top);
         return answer(top,ch,priority);
     }
+    
     
 }
 
@@ -104,33 +106,38 @@ int main(){
   fgets(ch,256,stdin);
   
   int priority = 0;
+  int skobky = 0;
   for (i = 0; i < 256; i++) {
-      if(digit(ch[i])){
+      if(digit(ch[i]) && ch[i] != 40 && ch[i] != 41){
           text[k] = ch[i];
           k++;
-          printf("%c\n", text[k-1]);
+          //printf("X%c\n", text[k-1]);
           continue;
       }
         
       else if(ch[i] == 40){
-            priority += 2;
+            skobky += 2;
+            printf("TET");
             continue;
       }
       else if(ch[i] == 41){
-            priority -= 2;
+            skobky -= 2;
             continue;
       }
       if(ch[i] == '+' || ch[i] == '-' ){
-        priority = 1;
+        priority = 1 + skobky;
+        //printf("TUT%c\t%d",ch[i],priority);
           
       }
       else if( ch[i] =='*' || ch[i] == '/'){
-        priority = 2;
+        priority = 2 + skobky;
+        //printf("%c\t%d",ch[i],priority);
       }
     
-    
+    printf("TUT%c\t%d",ch[i],priority);
     stek = answer(stek,ch[i],priority);
-    printStruct(stek);
+    //printStruct(stek);
+    
     
     
     
@@ -139,10 +146,12 @@ int main(){
 
   
     for (int i = strlen(text); stek != NULL; i++) {
-      
+        
         text[i] = stek->number;
         stek = pop(stek);
+        
     }
+    
     
     for (int i = 0; i < strlen(text) ; i++) {
         
